@@ -1,0 +1,84 @@
+﻿@page
+@model officescheduler.Pages.User.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>UserClass</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserClass.FirstName" class="control-label"></label>
+                <input asp-for="UserClass.FirstName" class="form-control" />
+                <span asp-validation-for="UserClass.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.LastName" class="control-label"></label>
+                <input asp-for="UserClass.LastName" class="form-control" />
+                <span asp-validation-for="UserClass.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.Email" class="control-label"></label>
+                <input asp-for="UserClass.Email" class="form-control" />
+                <span asp-validation-for="UserClass.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.Title" class="control-label"></label>
+                <input asp-for="UserClass.Title" class="form-control" />
+                <span asp-validation-for="UserClass.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.Password" class="control-label"></label>
+                <input asp-for="UserClass.Password" class="form-control" />
+                <span asp-validation-for="UserClass.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.DefaultOffice" class="control-label"></label>
+                <input asp-for="UserClass.DefaultOffice" class="form-control" />
+                <span asp-validation-for="UserClass.DefaultOffice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.ADuser" class="control-label"></label>
+                <input asp-for="UserClass.ADuser" class="form-control" />
+                <span asp-validation-for="UserClass.ADuser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.IsManager" class="control-label"></label>
+                <input asp-for="UserClass.IsManager" class="form-control" />
+                <span asp-validation-for="UserClass.IsManager" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.Option1" class="control-label"></label>
+                <input asp-for="UserClass.Option1" class="form-control" />
+                <span asp-validation-for="UserClass.Option1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.Option2" class="control-label"></label>
+                <input asp-for="UserClass.Option2" class="form-control" />
+                <span asp-validation-for="UserClass.Option2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserClass.Option3" class="control-label"></label>
+                <input asp-for="UserClass.Option3" class="form-control" />
+                <span asp-validation-for="UserClass.Option3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,468 @@
+﻿@page
+@model officescheduler.Pages.Timeslot.IndexModel
+
+@{
+    ViewData["Title"] = "Schedule";
+
+}
+@using System.Globalization
+@using officescheduler.Models;
+@*
+    <h2>Index</h2>
+
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TimeslotClass[0].UserID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TimeslotClass[0].Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TimeslotClass[0].Time)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model.TimeslotClass) {
+                <tr>
+                    <td>
+                        @*Html.DisplayFor(modelItem => item.UserID)
+                </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Time)
+    </td>
+    <td>
+        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+
+    </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+*@
+
+<div class="header">
+
+    <div class="office-selector" class="col-6">
+        <h2>Office:</h2>
+        <div class="dropdown" class="btn-group">
+            <button type="button"
+                    class="btn btn-primary btn-lg dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span id="office">
+                    @Model.DefaultOffice
+                </span>
+            </button>
+            <div class="dropdown-menu">
+
+                @foreach (var OfficeForEachLoop in Model.OfficeClass)
+                {
+                    <a class="dropdown-item" href="@string.Format("../Timeslot/Index?UserIDpassed=" + Model.UID + "&TestVariable2=12345" + "&defaultOffice=" + OfficeForEachLoop.FirstName + "&weekStart=" + Model.StartWeek)">
+
+                        @Html.DisplayFor(modelItem => OfficeForEachLoop.FirstName)
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    @*<div class="user-selector" class="col-6">
+            <h2>User:</h2>
+            <div class="dropdown" class="btn-group">
+                <button type="button"
+                        class="btn btn-primary btn-lg dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    <span id="user">Bohdan I Ivchenko</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        </div>*@
+    <div class="year-selector">
+        <h2>Year:</h2>
+        <div class="dropdown btn-group">
+            <button type="button"
+                    class="btn btn-primary btn-lg dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span id="year">
+                    @Model.Year
+                </span>
+            </button>
+            <div class="dropdown-menu">
+
+
+
+                @for (DateTime startDate = new DateTime(2021, 1, 1); startDate.Date <= new DateTime(2021, 1, 12); startDate = startDate.AddYears(1))
+                {
+
+
+                    var NewString = new DateTime(startDate.Year, Model.MonthInt, Model.DayInt).ToString();
+
+
+                    <a class="dropdown-item" href="@string.Format("../Timeslot/Index?UserIDpassed=" + Model.UID + "&TestVariable2=12345" + "&defaultOffice=" + Model.DefaultOffice + "&weekStart=" + NewString)">
+                        @startDate.Year
+                    </a>
+
+                }
+
+                @*
+
+                    Example:
+                    <a class="dropdown-item" href="#">2021</a>
+
+
+                *@
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="month-selector">
+        <h2>Month:</h2>
+        <div class="dropdown btn-group">
+            <button type="button"
+                    class="btn btn-primary btn-lg dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span id="month">
+                    @{
+                        var GetNameOfMonth = new DateTime(2010, Model.MonthInt, 1);
+                    }
+
+                    @GetNameOfMonth.ToString("MMMM")
+                </span>
+            </button>
+            <div class="dropdown-menu">
+
+
+                @for (DateTime startDate = new DateTime(2021, 1, 1); startDate.Date < new DateTime(2022, 1, 1); startDate = startDate.AddMonths(1))
+                {
+
+
+                    var NewString = new DateTime(Model.Year, startDate.Month, startDate.Day).ToString();
+
+
+                    <a class="dropdown-item" href="@string.Format("../Timeslot/Index?UserIDpassed=" + Model.UID + "&TestVariable2=12345" + "&defaultOffice=" + Model.DefaultOffice + "&weekStart=" + NewString)">
+                        @startDate.ToString("MMMM")
+                    </a>
+
+                }
+
+
+                @*
+                    Example:
+                    <a class="dropdown-item" href="#">January</a>
+
+                *@
+            </div>
+        </div>
+    </div>
+    <div class="week-selector">
+        <h2>Week:</h2>
+        <div class="dropdown">
+            <button type="button"
+                    class="btn btn-primary btn-lg dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+
+                @{
+
+
+
+
+
+
+                    string WeekSelectorLabel = Model.WeekStartDT.ToString("MMM") + " " + Model.WeekStartDT.Day + " - " + Model.WeekEndDT.ToString("MMM") + " " + Model.WeekEndDT.Day;
+
+
+                    //Processing stuff for the month
+                    var firstofMonth = new DateTime(Model.Year, Model.MonthInt, 1);
+
+                    if (firstofMonth.DayOfWeek == DayOfWeek.Saturday)
+                    {
+
+                        firstofMonth = firstofMonth.AddDays(2);
+
+                    }
+                    else if (firstofMonth.DayOfWeek == DayOfWeek.Sunday)
+                    {
+
+                        firstofMonth = firstofMonth.AddDays(1);
+
+                    }
+
+                    var firstWorkingDayOfMonth = firstofMonth;
+
+                    var firstFridayofMonth = firstWorkingDayOfMonth;
+
+                    while (firstFridayofMonth.DayOfWeek != DayOfWeek.Friday)
+                    {
+                        firstFridayofMonth = firstFridayofMonth.AddDays(1);
+                    }
+
+
+
+
+                }
+
+
+                <span id="week">
+                    @WeekSelectorLabel
+
+                </span>
+            </button>
+            <div class="dropdown-menu">
+
+                @{
+                    string weekSelectorSubLabel = "";
+                    DateTime LastMonday = firstFridayofMonth;
+                }
+
+                @for (DateTime startDate = firstWorkingDayOfMonth; startDate.Date < new DateTime(Model.Year, Model.MonthInt + 1, 1); startDate = startDate.AddDays(1))
+                {   //Big bug with dewcember Fix later
+
+                    if ((startDate.DayOfWeek == DayOfWeek.Monday) || (startDate.Day == firstWorkingDayOfMonth.Day))
+                    {
+                        weekSelectorSubLabel = startDate.Day + " - ";
+                        LastMonday = startDate;
+
+                    }
+
+                    if ((startDate.DayOfWeek == DayOfWeek.Friday) || (startDate.Day == DateTime.DaysInMonth(Model.Year, Model.MonthInt)))
+                    {
+
+                        weekSelectorSubLabel = weekSelectorSubLabel + startDate.Day;
+                        var NewString = "";
+
+                        NewString = new DateTime(Model.Year, Model.MonthInt, LastMonday.Day).ToString();
+
+
+
+                        <a class="dropdown-item" href="@string.Format("../Timeslot/Index?UserIDpassed=" + Model.UID + "&TestVariable2=12345" + "&defaultOffice=" + Model.DefaultOffice + "&weekStart=" + NewString)">
+                            @*
+                                
+                            *@@weekSelectorSubLabel
+                        </a>
+
+                    }
+                }
+
+
+
+                @*
+
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                *@
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    int DateIteratorCounterFrontend = 0;
+}
+
+
+
+@for (DateTime startDate = Model.WeekStartDT; startDate <= Model.WeekEndDT; startDate = startDate.AddDays(1))
+{
+    <div class="day">
+        <div class="day-header">
+            <h2 clas="date-number">
+                @String.Format("{0:d dddd}", startDate)
+            </h2>
+            <div class="grid-area">
+
+                @{
+                    DateTime TempWeekStartDT = new DateTime(Model.WeekStartDT.Year, Model.WeekStartDT.Month, Model.WeekStartDT.Day, 8, 0, 0);
+
+                    DateTime Dayend = TempWeekStartDT.AddHours(9);
+
+                }
+
+                @{
+                    int HourIteratorFrontend = 0;
+                }
+                @for (DateTime startHour = TempWeekStartDT; startHour <= Dayend; startHour = startHour.AddHours(1))
+                {
+
+                <div class="hour-column">
+                    <h4>
+                        @startHour.ToString("hh:mm tt", CultureInfo.GetCultureInfo("en-US"))
+
+                    </h4>
+
+                    @{
+                        int TimelineCounter = 0;
+                    }
+
+
+                    @for (int i = 0; i < Model.OfficeClassOffice.MaximumOcupancey; i++)
+                    {
+
+
+
+                        //if free
+
+                        //IReadOnlyCollection click redirect to edit
+
+
+
+
+
+
+
+                        //CurrentTimeslot.UserID = Model.TimeslotsBackend3DArray[HourIteratorFrontend, TimelineCounter, HourIteratorFrontend].UserID;
+
+
+
+
+                        <a asp-page="./Edit" asp-route-id="@Model.TimeslotClass[0].ID"> <button type = "button" class="btn btn-success" onclick="">Reserve</button></a> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+                    @{
+                        TimelineCounter++;
+                    }
+
+
+
+
+                </div>
+
+                }
+
+                @{
+
+                    HourIteratorFrontend++;
+
+
+                }
+
+
+                @*
+                        <h4>8am-9am</h4>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                    <button type="button" class="btn btn-success">Reserve</button>
+                *@
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    DateIteratorCounterFrontend++;
+
+}
+
+
+
+
+
+@*
+    For each day in week
+    9 times a day for each hour
+    x times for each spot
+
+
+
+    @for (DateTime startDate = WeekStartDT; startDate <= WeekEndDT; startDate = startDate.AddDays(1))
+    {
+        <div class="day">
+            <div class="day-header">
+                <h4 clas="date-number"><span id="dateheader-1"></span></h4>
+                <div class="grid-area">
+
+                    @for (DateTime startHour = startDate.AddHours(8); startHour <= startDate.AddHours(18); startHour.AddHours(1))
+                    {
+                        <div class="hour-column">
+                            <h4>
+                                8am-9am
+                            </h4>
+
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+        @for (int i = 0; i <= 5; i++)
+    {
+        <div class="day">
+            <div class="day-header">
+                <h4 clas="date-number"><span id="dateheader-1"></span></h4>
+                <div class="grid-area">
+                    <div class="hour-column">
+                        <h4>8am-9am</h4>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                        <button type="button" class="btn btn-success">Reserve</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+*@
+
+
+
+
